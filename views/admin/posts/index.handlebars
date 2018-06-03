@@ -3,15 +3,18 @@
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th>Image</th>
             <th>Id</th>
             <th>Title</th>
             <th>Status</th>
             <th>AllowComments</th>
+            <th>Action</th>
         </tr>
     </thead>
     {{#each posts}}
     <tbody>
         <tr>
+            <td><img height="50px" src="/uploads/{{file}}" alt="sd"></td>
             <td>{{id}}</td>
             <td>{{title}}</td>
             <td>{{status}}</td>

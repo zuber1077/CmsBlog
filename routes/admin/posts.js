@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
+const {isEmpty} = require('../../helpers/upload-helpers');
+
 
 router.all('/*', (req, res, next) => { // anything after admin
     req.app.locals.layout = 'admin';
@@ -19,6 +21,21 @@ router.get('/create', (req, res) => {
 
 router.post('/create', (req, res) => {
 
+    let filename = '700.jpeg';
+
+    if(!isEmpty(req.files)){
+        // Upload File
+        
+        let file = req.files.file;
+        filename = Date.now() + '-' + file.name;
+
+        file.mv('./public/uploads/' + filename, (err) => {
+            if (err) throw err;
+        });
+
+        //console.log('is not Empty');
+    }
+
     let allowComments  = true;
 
     if(req.body.allowComments){
@@ -31,7 +48,8 @@ router.post('/create', (req, res) => {
         title: req.body.title,
         status: req.body.status,
         allowComments: allowComments,
-        body: req.body.body
+        body: req.body.body,
+        file: filename
     });
 
     newPost.save().then(savePost=>{
@@ -61,7 +79,6 @@ router.put('/edit/:id', (req,res)=>{
         post.status = req.body.status;
         post.allowComments = allowComments;
         post.body = req.body.body;
-
 
         post.save().then(updatePost=>{
             res.redirect("/admin/posts");

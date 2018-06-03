@@ -48,6 +48,29 @@ router.get('/edit/:id', (req,res)=>{
     });
 });
 
+router.put('/edit/:id', (req,res)=>{
+    
+    Post.findOne({_id: req.params.id}).then(post => {
+        if(req.body.allowComments){
+            allowComments = true;
+        }else{
+            allowComments = false;
+        }
+
+        post.title = req.body.title;
+        post.status = req.body.status;
+        post.allowComments = allowComments;
+        post.body = req.body.body;
+
+
+        post.save().then(updatePost=>{
+            res.redirect("/admin/posts");
+        }).catch(error=>console.log(error));
+        
+    });
+
+});
+
 
 
 module.exports = router;

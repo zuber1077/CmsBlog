@@ -9,6 +9,7 @@ router.all('/*', (req, res, next)=>{ // anything after admin
     next();
 });
 
+
 router.get('/', (req, res) => {
     res.render('admin/index');
 });

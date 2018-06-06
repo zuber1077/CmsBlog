@@ -1,4 +1,10 @@
-<h2>createpost</h2>
+<h2>create post</h2>
+
+{{#each errors}}
+<div class="alert alert-danger">
+    {{message}}
+</div>
+{{/each}}
 
 <form action="/admin/posts/create" method="post" enctype="multipart/form-data">
     <div class="form-group">

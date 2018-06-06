@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const upload = require('express-fileupload');
+const session = require('express-session');
+const flush = require('connect-flash');
 
 
 mongoose.connect('mongodb://127.0.0.1/myBlog').then(db=>{
@@ -29,6 +31,27 @@ app.use(bodyParser.json());
 
 // Method override
 app.use(methodOverride('_method'));
+
+
+// session and flush
+
+app.use(session({
+    secret: 'thisiszuber1077',
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(flush());
+
+
+// Flush Local Variables Using Middleware
+
+app.use((req, res, next)=>{
+    res.locals.success_message = req.flash('success_message');
+
+    next();
+});
+
 
 // load routes
 const home = require('./routes/home/index');

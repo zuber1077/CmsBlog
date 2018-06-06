@@ -21,6 +21,26 @@ router.get('/create', (req, res) => {
 
 router.post('/create', (req, res) => {
 
+
+    // validation for empty submit
+
+    let errors = [];
+
+    if(!req.body.title){
+        errors.push({message: 'Please Add Title'});
+    }
+    if(!req.body.body){
+        errors.push({message: 'Please Add Description'});
+    }
+
+    if(errors.length > 0){
+        res.render('admin/posts/create',{
+            errors: errors
+        });
+    }else{
+
+    
+
     let filename = '700.jpeg';
 
     if(!isEmpty(req.files)){
@@ -35,7 +55,6 @@ router.post('/create', (req, res) => {
 
         //console.log('is not Empty');
     }
-
     let allowComments  = true;
 
     if(req.body.allowComments){
@@ -53,12 +72,20 @@ router.post('/create', (req, res) => {
     });
 
     newPost.save().then(savePost=>{
+
+    // Flush message for success Post
+    req.flash('success_message', `Post ${savePost.title} was created Successfully`)
+
+
         res.redirect('/admin/posts');        
     }).catch(error=>{
         console.log('can not save post');
     });
 
+}
+
 });
+
 
 router.get('/edit/:id', (req,res)=>{
     Post.findOne({_id: req.params.id}).then(post => {

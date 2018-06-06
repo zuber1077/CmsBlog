@@ -25,9 +25,11 @@
   "homepage": "https://github.com/zuber1077/CmsBlog#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
     "express": "^4.16.3",
     "express-fileupload": "^0.4.0",
     "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
     "faker": "^4.1.0",
     "method-override": "^2.3.10",
     "mongoose": "^5.1.3"

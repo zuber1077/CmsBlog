@@ -1,5 +1,6 @@
 <h2>Edit Post</h2>
 
+
 <form action="/admin/posts/edit/{{post.id}}?_method=PUT" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label for="title">Title</label>
@@ -30,5 +31,5 @@
         <label for="body">Body</label>
         <textarea cols="30" rows="8" name="body" class="form-control" id="body">{{post.body}}</textarea>
     </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit">Update Post</button>
 </form>

@@ -3,15 +3,14 @@ const router = express.Router();
 const Post = require('../../models/Post');
 const {isEmpty} = require('../../helpers/upload-helpers');
 
-
 router.all('/*', (req, res, next) => { // anything after admin
     req.app.locals.layout = 'admin';
     next();
 });
 
 router.get('/', (req, res) => {
-        Post.find({}).then(posts=>{    
-            res.render('admin/posts', {posts: posts});
+        Post.find({}).then(posts=>{ 
+            res.render('admin/posts', {posts: posts,});            
         });
 });
 
@@ -107,7 +106,24 @@ router.put('/edit/:id', (req,res)=>{
         post.allowComments = allowComments;
         post.body = req.body.body;
 
+        if(!isEmpty(req.files)){
+        // Upload File
+        
+        let file = req.files.file;
+        filename = Date.now() + '-' + file.name;
+        post.file = filename; // update image file
+
+        file.mv('./public/uploads/' + filename, (err) => {
+            if (err) throw err;
+        });
+    }
+
+
         post.save().then(updatePost=>{
+
+            // Flush message for success Update
+            req.flash("success_message", `Post was Successfully Updated`);
+
             res.redirect("/admin/posts");
         }).catch(error=>console.log(error));
         
@@ -116,7 +132,12 @@ router.put('/edit/:id', (req,res)=>{
 });
 
 router.delete('/:id', (req,res)=>{
+
     Post.remove({_id: req.params.id}).then(result=>{
+
+        // Flush message for success Delete
+        req.flash("success_message", `Post was Successfully Deleted`);
+
         res.redirect('/admin/posts');
     });
 });

@@ -1,9 +1,5 @@
 <h1>All Post</h1>
 
-{{!-- Flush message for Success Message --}}
-{{> home/form-msg}}
-
-
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -11,6 +7,7 @@
             <th>Id</th>
             <th>Title</th>
             <th>Status</th>
+            <th>Date</th>
             <th>AllowComments</th>
             <th>Action</th>
         </tr>
@@ -22,6 +19,7 @@
             <td>{{id}}</td>
             <td>{{title}}</td>
             <td>{{status}}</td>
+            <td>{{generateTime date 'MMM Do YYYY'}}</td>
             <td>{{allowComments}}</td>
             <td><a href="/admin/posts/edit/{{id}}" class="btn btn-warning btn-sm">Edit</a></td>
             <td>

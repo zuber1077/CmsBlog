@@ -4,10 +4,11 @@
     <thead>
         <tr>
             <th>Image</th>
-            <th>Id</th>
+            {{!-- <th>Id</th> --}}
             <th>Title</th>
             <th>Status</th>
             <th>Date</th>
+            <th>Category</th>
             <th>AllowComments</th>
             <th>Action</th>
         </tr>
@@ -16,10 +17,11 @@
     <tbody>
         <tr>
             <td><img height="50px" src="/uploads/{{file}}" alt="sd"></td>
-            <td>{{id}}</td>
+            {{!-- <td>{{id}}</td> --}}
             <td>{{title}}</td>
             <td>{{status}}</td>
             <td>{{generateTime date 'MMM Do YYYY'}}</td>
+            <td>{{category.name}}</td>
             <td>{{allowComments}}</td>
             <td><a href="/admin/posts/edit/{{id}}" class="btn btn-warning btn-sm">Edit</a></td>
             <td>

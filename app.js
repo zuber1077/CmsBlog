@@ -8,9 +8,11 @@ const methodOverride = require('method-override');
 const upload = require('express-fileupload');
 const session = require('express-session');
 const flush = require('connect-flash');
+const passport = require('passport');
+const {mongoDbUri} = require('./config/db');
 
 
-mongoose.connect('mongodb://127.0.0.1/myBlog').then(db=>{
+mongoose.connect(mongoDbUri).then(db=>{
     console.log('DB connected');
 }).catch(error=>console.log(`err ${error}`));
 
@@ -43,6 +45,9 @@ app.use(session({
 
 app.use(flush());
 
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Flush Local Variables Using Middleware
 

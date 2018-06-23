@@ -3,6 +3,11 @@
   "version": "1.0.1",
   "description": "Cms Blog WebApp using NodeJs and mongodb ",
   "main": "app.js",
+  "dev": "nodemon server.js",
+  "engines": {
+    "node": "8.11.1",
+    "npm": "5.6.0"
+  },
   "scripts": {
     "start": "node app.js"
   },

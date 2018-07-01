@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const URLSlugs = require('mongoose-url-slugs');
 
 const PostSchema = Schema({
 
@@ -10,6 +11,10 @@ const PostSchema = Schema({
         type: String,
         require: true
     },
+    slug: {
+        type: String
+    },
+    
     status: {
         type: String,
         default: 'public'
@@ -29,12 +34,13 @@ const PostSchema = Schema({
         type: Date,
         default: Date.now()
     },
-
     category: {
         type: Schema.Types.ObjectId,
         ref: 'categories'
     }
 
 });
+
+PostSchema.plugin(URLSlugs('title',{field: 'slug'}));
 
 module.exports = mongoose.model('Post', PostSchema);

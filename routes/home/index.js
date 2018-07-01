@@ -29,10 +29,15 @@ router.get('/about', (req,res)=>{
 
 // login
 
+router.get('/login', (req,res)=>{
+    res.render("home/login");
+});
+
 passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done)=>{
     
     User.findOne({email: email}).then(user=>{
         if(!user) return done(null, false, {message: 'No user found'});
+
 
         bcrypt.compare(password, user.password, (err, matched)=>{
             if(err) return err;
@@ -61,21 +66,24 @@ passport.deserializeUser(function(id, done) {
 });
 
 
-
-router.get('/login', (req,res)=>{
-    res.render("home/login");
-});
-
 router.post('/login', (req,res,next)=>{
 
     passport.authenticate('local',{
         successRedirect: '/admin',
         failureRedirect: '/login',
-        failureFlush: true
+        failureFlash: true
+        
 
     })(req,res,next);
 
     // res.send("loginz");
+});
+
+
+// log out
+router.get('/logout', (req,res)=>{
+    req.logOut();
+    res.redirect('/login');
 });
 
 // register
@@ -168,8 +176,8 @@ router.post('/register', (req,res)=>{
     } //else err end here
 });
 
-router.get('/post/:id', (req,res)=>{
-    Post.findOne({_id: req.params.id}).then(post =>{
+router.get('/post/:slug', (req,res)=>{
+    Post.findOne({slug: req.params.slug}).then(post =>{
 
         Category.find({}).then(categories=>{
             res.render("home/post", {post: post, categories: categories});

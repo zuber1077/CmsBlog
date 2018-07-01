@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const faker = require('faker');
 const Post = require('../../models/Post');
+const {userAuthenticated}  = require('../../helpers/authentication');
 
 
 router.all('/*', (req, res, next)=>{ // anything after admin
@@ -23,6 +24,7 @@ router.post('/generate-fake-post', (req, res) => {
         post.status = 'public';
         post.allowComments = faker.random.boolean();
         post.body = faker.lorem.sentences();
+        post.slug = faker.name.title();
 
         post.save(function(err) {
             if(err) throw err;

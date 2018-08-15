@@ -8,6 +8,48 @@ module.exports = {
 
     },
 
+    paginate: function (options) {
+
+        let output = '';
+
+        if(options.hash.current === 1){
+            output += `<li class="page-item disable"><a class="page-link">First</a></li>`;
+        }else{
+             output += `<li class="page-item"><a href="?page=1" class="page-link">First</a></li>`;
+        }
+
+        let i = (Number(options.hash.current) > 5 ? Number(options.hash.current) - 4 : 1);
+
+        if(i !== 1){
+            output += `<li class="page-item" disable><a href="?page=1" class="page-link">...</a></li>`;
+        }
+
+        for(; i <= (Number(options.hash.current) + 4 ) && i <= options.hash.pages; i++){
+
+            if(i === options.hash.current){
+                 output += `<li class="page-item" active><a class="page-link">${i}</a></li>`;
+            }else{
+                 output += `<li class="page-item"><a href="?page=${i}" class="page-link">${i}</a></li>`;
+            }
+
+            if(i === Number(options.hash.current) + 4 && i < options.hash.pages){
+                output += `<li class="page-item" disable><a class="page-link">...</a></li>`;
+            }
+            // maybe the dots
+        }
+
+
+        if(options.hash.current === options.hash.pages){
+            output += `<li class="page-item" disable><a class="page-link">Last</a></li>`;
+        }else{
+            output += `<li class="page-item"><a href="?page=${options.hash.pages}" class="page-link">Last</a></li>`;
+        }
+
+        return output;
+
+        console.log(options.hash.current);
+    },
+
     // function for Date Format 
     generateTime: function (date, format) {
           return moment(date).format(format);

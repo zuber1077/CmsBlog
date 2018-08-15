@@ -37,9 +37,13 @@ const PostSchema = Schema({
     category: {
         type: Schema.Types.ObjectId,
         ref: 'categories'
-    }
+    },
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'comments'
+    }]
 
-});
+}, {usePushEach: true});
 
 PostSchema.plugin(URLSlugs('title',{field: 'slug'}));
 

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
+const fs = require('fs');
+const { isEmpty, uploadDir } = require('../../helpers/upload-helper');
 const Category = require('../../models/Category');
 const {isEmpty} = require('../../helpers/upload-helpers');
 
@@ -146,13 +148,25 @@ router.put('/edit/:id', (req,res)=>{
 
 router.delete('/:id', (req,res)=>{
 
-    Post.remove({_id: req.params.id}).then(result=>{
+    Post.findOne({_id: req.params.id})
+    .populate('comments')
+    .then(post=>{
 
+        // fs.unlink(uploadDir + post.file, (err) => {
+
+            if (!post.comments.length < 1){
+                post.comments.forEach(comment=>{
+                    comment.remove();
+                });
+            }
+            post.remove().then(postRemove=>{
+                req.flash('success_message', 'Post was Successfully Deleted');
+                res.redirect('/admin/posts');
+            }).catch(error=>console.log(error));
         // Flush message for success Delete
-        req.flash("success_message", `Post was Successfully Deleted`);
 
-        res.redirect('/admin/posts');
-    });
+        // });
+    }).catch(error=>console.log(error));
 });
 
 

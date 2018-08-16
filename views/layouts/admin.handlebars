@@ -14,6 +14,7 @@
     <link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin.css" rel="stylesheet">
+    <link href="/css/bootstrap-switch.min.css" rel="stylesheet">
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -188,6 +189,17 @@
         <script src="/js/jquery-easing/jquery.easing.min.js"></script>
         <!-- Custom scripts for all pages-->
         <script src="/js/admin/sb-admin.js"></script>
+        <script src="/js/admin/bootstrap-switch.min.js"></script>
+
+        <script>
+            $("[name='approveComment']").bootstrapSwitch();
+
+            $(document).ready(()=>{
+                $("[name='approveComment']").on('switchChange.bootstrapSwitch', (e,data) =>{
+                    console.log('e')
+                });
+            });
+        </script>
     </div>
 </body>
 

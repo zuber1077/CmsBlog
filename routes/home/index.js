@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const router = express.Router();
 const Post = require('../../models/Post');
 const Category = require('../../models/Category');
+const Comment = require('../../models/Comment');
 const User = require('../../models/User');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -193,8 +194,9 @@ router.post('/register', (req,res)=>{
 });
 
 router.get('/post/:slug', (req,res)=>{
-    Post.findOne({slug: req.params.slug}).then(post =>{
-
+    Post.findOne({slug: req.params.slug})
+    .populate({path: 'comments'})
+    .then(post =>{
         Category.find({}).then(categories=>{
             res.render("home/post", {post: post, categories: categories});
         });   

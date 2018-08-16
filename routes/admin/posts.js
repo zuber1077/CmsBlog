@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
 const fs = require('fs');
-const { isEmpty, uploadDir } = require('../../helpers/upload-helper');
+const { isEmpty, uploadDir } = require('../../helpers/upload-helpers');
 const Category = require('../../models/Category');
-const {isEmpty} = require('../../helpers/upload-helpers');
 
 router.all('/*', (req, res, next) => { // anything after admin
     req.app.locals.layout = 'admin';
@@ -152,7 +151,7 @@ router.delete('/:id', (req,res)=>{
     .populate('comments')
     .then(post=>{
 
-        // fs.unlink(uploadDir + post.file, (err) => {
+        fs.unlink(uploadDir + post.file, (err) => {
 
             if (!post.comments.length < 1){
                 post.comments.forEach(comment=>{
@@ -165,7 +164,7 @@ router.delete('/:id', (req,res)=>{
             }).catch(error=>console.log(error));
         // Flush message for success Delete
 
-        // });
+         });
     }).catch(error=>console.log(error));
 });
 

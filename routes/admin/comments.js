@@ -11,6 +11,7 @@ router.all('/*', (req, res, next) => {
 router.get('/', (req, res) => {
 
     Comment.find({})
+    // Comment.find({user: req.user.id})
     .populate('user')
     .then(comments=>{
         res.render('admin/comments', {comments: comments});
@@ -20,7 +21,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     Post.findOne({_id: req.body.id}).then(post=>{
         const newComment = new Comment({
-            user: req.user.id,
+            name: req.body.name,
             body: req.body.body
         });
 
@@ -35,7 +36,11 @@ router.post('/', (req, res) => {
 
 router.delete('/:id', (req,res)=>{
     Comment.remove({_id: req.params.id}).then(result=>{
-        res.redirect('/admin/comments');
+
+        Post.findOneAndUpdate({comments: req.params.id}, {$pull: {comments: req.params.id}}, (err, data)=>{
+            if(err) console.log(err);
+            res.redirect('/admin/comments');
+        });
     });
 });
 

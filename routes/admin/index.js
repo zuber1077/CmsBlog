@@ -16,18 +16,18 @@ router.all('/*', (req, res, next)=>{ // anything after admin
 
 router.get('/', (req, res) => {
 
-    Post.count({}).then(postCount => {
-        Comment.count({}).then(commentCount => {
-            User.count({}).then(userCount => {
-                Category.count({}).then(categoryCount => {
-                    res.render('admin/index', {
-                        postCount, commentCount, userCount, categoryCount
-                    });    
-                })
-            })
-        })
-    })
+    const promises = [
+        Post.count().exec(),
+        Comment.count(),
+        Category.count(),
+        User.count()
+    ]
 
+    Promise.all(promises).then(([postCount, commentCount, categoryCount, userCount]) => {
+        res.render('admin/index', {
+            postCount, commentCount, userCount, categoryCount, promises
+        });  
+    });
 });
 
 router.post('/generate-fake-post', (req, res) => {

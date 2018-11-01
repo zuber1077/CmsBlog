@@ -5,7 +5,8 @@ const URLSlugs = require('mongoose-url-slugs');
 const PostSchema = Schema({
 
     user: {
-
+        type: Schema.Types.ObjectId,
+        ref: 'users'
     },
     title: {
         type: String,

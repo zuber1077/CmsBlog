@@ -11,7 +11,7 @@
             <th>Category</th>
             <th>view</th>
             <th>AllowComments</th>
-            {{!-- <th>Action</th> --}}
+            <th>Action</th>
         </tr>
     </thead>
     {{#each posts}}
@@ -25,12 +25,12 @@
             <td>{{category.name}}</td>
             <td><a href="/post/{{slug}}">View</a></td>
             <td>{{allowComments}}</td>
-            {{!-- <td><a href="/admin/posts/edit/{{id}}" class="btn btn-warning btn-sm">Edit</a></td> --}}
-            {{!-- <td>
+            <td><a href="/admin/posts/edit/{{id}}" class="btn btn-warning btn-sm">Edit</a></td>
+            <td>
                 <form action="/admin/posts/{{id}}?_method=DELETE" method="POST">
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
-            </td> --}}
+            </td>
         </tr>
     </tbody>
     {{/each}}

@@ -15,7 +15,7 @@
                 <!-- Author -->
                 <p class="lead">
                     by
-                    <a href="#">zuber</a>
+                    <a href="#">{{post.user.firstName}}</a>
                 </p>
 
                 <hr>
@@ -36,6 +36,8 @@
 
                 <hr>
 
+            {{#if user}}
+                {{#if post.allowComments}}
 
                 <!-- Comments Form -->
                 <div class="card my-4">
@@ -43,6 +45,7 @@
                     <div class="card-body">
                         <form action="/admin/comments" method="POST">
                             <div class="form-group">
+                                <label for="name">Name</label>
                                 <input type="text" name="name">
                                 <textarea name="body" class="form-control" rows="3"></textarea>
                                 <input type="hidden" name="id" value="{{post.id}}">
@@ -52,23 +55,36 @@
                     </div>
                 </div>
 
+                {{else}}
+                <h2>Comments are not allowed For this Post!</h2>
+                <hr><br>
+
+                {{/if}}
+
+            {{else}}
+                <h4>You need to 👉 <a href="/login">Login</a> to comment</h4> 
+                <hr>
+            {{/if}}
+
                 <!-- Single Comment -->
                 {{#each post.comments}}
                 <div class="media mb-4">
                     <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                     <div class="media-body">
-                        <h5 class="mt-0">{{name}}</h5>
+                        {{!-- <h5 class="mt-0">{{name}}</h5> --}}
+                        <h5 class="mt-0">{{user.firstName}}</h5>
                         {{body}}
                     </div>
                 </div>
                 {{/each}}
             </div>
 
+
             <!-- Sidebar Widgets Column -->
             <div class="col-md-4">
 
                 <!-- Search Widget -->
-                <div class="card my-4">
+                <div class="card my-4 left">
                     <h5 class="card-header">Search</h5>
                     <div class="card-body">
                         <div class="input-group">

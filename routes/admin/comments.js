@@ -22,6 +22,7 @@ router.post('/', (req, res) => {
     Post.findOne({_id: req.body.id}).then(post=>{
         const newComment = new Comment({
             name: req.body.name,
+            user: req.user.id,
             body: req.body.body
         });
 

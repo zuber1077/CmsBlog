@@ -195,7 +195,9 @@ router.post('/register', (req,res)=>{
 
 router.get('/post/:slug', (req,res)=>{
     Post.findOne({slug: req.params.slug})
-    .populate({path: 'comments'})
+    .populate({path: 'comments', populate: {path: 'user', models: 'users'}})
+    // populate user for specific post
+    .populate('user')
     .then(post =>{
         Category.find({}).then(categories=>{
             res.render("home/post", {post: post, categories: categories});

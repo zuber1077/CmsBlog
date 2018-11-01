@@ -38,7 +38,8 @@ app.use(methodOverride('_method'));
 // session and flush
 
 app.use(session({
-    secret: 'thisiszuber1077',
+   secret: 'thisiszuber1077',
+    // secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true
 }));

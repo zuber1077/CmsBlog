@@ -10,7 +10,7 @@ router.all('/*', (req, res, next) => {
 
 router.get('/', (req, res) => {
 
-    Comment.find({})
+    Comment.find({ 'user': '5b1ba68eb088d982f0383773' })
     // Comment.find({user: req.user.id})
     .populate('user')
     .then(comments=>{
@@ -45,5 +45,12 @@ router.delete('/:id', (req,res)=>{
     });
 });
 
+// layouts/admin.handlebars
+router.post('/approve-comment', (req, res) => {
+    Comment.findByIdAndUpdate(req.body.id, {$set: {approveComment: req.body.approveComment}}, (err, result) => {
+        if (err) return err;
+        res.send(result);
+    })
+})
 
 module.exports = router;

@@ -15,6 +15,9 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin.css" rel="stylesheet">
     <link href="/css/bootstrap-switch.min.css" rel="stylesheet">
+
+    {{!-- toaster for notification *()  --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -182,6 +185,7 @@
                 </div>
             </div>
         </div>
+    </div>
         <!-- Bootstrap core JavaScript-->
         <script src="/js/jquery/jquery.min.js"></script>
         <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -190,17 +194,30 @@
         <!-- Custom scripts for all pages-->
         <script src="/js/admin/sb-admin.js"></script>
         <script src="/js/admin/bootstrap-switch.min.js"></script>
+        {{!-- toaster for notification *() --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
         <script>
             $("[name='approveComment']").bootstrapSwitch();
 
             $(document).ready(()=>{
-                $("[name='approveComment']").on('switchChange.bootstrapSwitch', (e,data) =>{
-                    console.log('e')
+                $("[name='approveComment']").on('switchChange.bootstrapSwitch', function(e,data){
+                    
+                    const id = $(this).attr('data-id');
+                    // console.log(id)
+                    
+                   $.ajax({
+                       type: "POST",
+                       url: '/admin/comments/approve-comment',
+                       data: {id: id, approveComment: data},
+                       cache: false,
+                       success: function(data){
+                           toastr.success(`Comment with id ${data._id} was updated`)
+                       }
+                   })
                 });
             });
         </script>
-    </div>
 </body>
 
 </html>

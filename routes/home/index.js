@@ -195,7 +195,11 @@ router.post('/register', (req,res)=>{
 
 router.get('/post/:slug', (req,res)=>{
     Post.findOne({slug: req.params.slug})
-    .populate({path: 'comments', populate: {path: 'user', models: 'users'}})
+    .populate({
+        path: 'comments', 
+        match: {approveComment: true}, // only show if the comment approve
+        populate: {path: 'user', models: 'users'} // populate username for comment
+    })
     // populate user for specific post
     .populate('user')
     .then(post =>{

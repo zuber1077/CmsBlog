@@ -9,8 +9,12 @@ const upload = require('express-fileupload');
 const session = require('express-session');
 const flush = require('connect-flash');
 const passport = require('passport');
+const MongoStore = require('connect-mongo')(session);
 const {mongoDbUri} = require('./config/db');
 
+
+mongoose.Promise = global.Promise;
+mongoose.Promise = Promise;
 
 mongoose.connect(mongoDbUri).then(db=>{
     console.log('DB connected');
@@ -41,7 +45,8 @@ app.use(session({
    secret: 'thisiszuber1077',
     // secret: process.env.SECRET,
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection})  //data can be save in db reuse later
 }));
 
 app.use(flush());

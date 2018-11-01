@@ -14,7 +14,9 @@
         {{#each comments}}
         <tr>
             <td>{{user.firstName}}</td>
-            <td><input data-id="{{id}}" type="checkbox" name="approveComment" ></td>
+
+            <td><input data-id="{{id}}" type="checkbox" {{#if approveComment}} checked {{/if}} name="approveComment" ></td>
+
             <td>{{generateTime date 'MMMM Do YYYY'}}</td>
             <td>
                 <form action="/admin/comments/{{id}}?_method=DELETE" method="POST">

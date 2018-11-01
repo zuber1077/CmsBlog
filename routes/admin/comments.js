@@ -10,7 +10,7 @@ router.all('/*', (req, res, next) => {
 
 router.get('/', (req, res) => {
 
-    Comment.find({ 'user': '5b1ba68eb088d982f0383773' })
+    Comment.find({})
     // Comment.find({user: req.user.id})
     .populate('user')
     .then(comments=>{
@@ -29,6 +29,7 @@ router.post('/', (req, res) => {
         post.comments.push(newComment);
         post.save().then(savePost=>{
             newComment.save().then(savedComment=>{
+                req.flash('success_message', 'Your comment will reviewed in second');
                 res.redirect('back');
             }).catch(error=>console.log(error));
         });
